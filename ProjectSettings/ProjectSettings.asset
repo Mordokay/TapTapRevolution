@@ -144,7 +144,7 @@ PlayerSettings:
     Android: com.TinyMonkeyStudios.TapTapRevolution
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 16
+  AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
   aotOptions: 
@@ -217,7 +217,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Bony/Desktop/TapTapRevolution/mordokay.keystore
+  AndroidKeystoreName: C:/Users/Mordokay/Desktop/TapTapRevolution/mordokay.keystore
   AndroidKeyaliasName: mordokay
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

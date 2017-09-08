@@ -60,7 +60,7 @@ public class AdsController : MonoBehaviour {
 
     void LoadRewardBasedAd()
     {
-        string adUnitId = "ca-app-pub-2936227452105377/2559504686";
+        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
 
 #if UNITY_EDITOR
         adUnitId = "unused";

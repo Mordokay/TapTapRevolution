@@ -1291,6 +1291,11 @@ Prefab:
       propertyPath: addsText
       value: 
       objectReference: {fileID: 411564941}
+    - target: {fileID: 114353160109500648, guid: 60b4b26b7a5f21149b21e077c21e1add,
+        type: 2}
+      propertyPath: tapScoreText
+      value: 
+      objectReference: {fileID: 226871766}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60b4b26b7a5f21149b21e077c21e1add, type: 2}
   m_IsPrefabParent: 0
@@ -4438,7 +4443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &916592902
 RectTransform:
   m_ObjectHideFlags: 0

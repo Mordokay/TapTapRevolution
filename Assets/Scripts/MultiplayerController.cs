@@ -41,6 +41,7 @@ public class MultiplayerController : MonoBehaviour
     public bool gameStarted;
     public bool gameInitialized;
     GooglePlayServicesManager gpsm;
+    public TextMesh tapScoreText;
 
     public void Start()
     {
@@ -100,6 +101,8 @@ public class MultiplayerController : MonoBehaviour
 
     private void Update()
     {
+        tapScoreText.text = "TAPS: " + tapCountMe;
+
         if (gameStarted)
         {
             //gpsm.SendMyMessage("CD:" + currentDurationMe.ToString());

@@ -124,11 +124,13 @@ public class AdsController : MonoBehaviour
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
         //addsText.text += "Ads Finished" + System.Environment.NewLine;
+        Start();
     }
     public void HandleOnAdRewarded(object sender, Reward args)
     {
         //Reward the user
         //addsText.text += String.Format("You just got {0} {1}!", args.Amount, args.Type) + System.Environment.NewLine;
+        Start();
     }
     public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {

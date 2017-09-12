@@ -12,12 +12,12 @@ public class ButtonMultiplayerController : MonoBehaviour
 
     void Start()
     {
-        mc = GameObject.FindGameObjectWithTag("MultiplayerManager").GetComponent<MultiplayerController>();
+        mc = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MultiplayerController>();
     }
 
     void Update()
     {
-        if (!mc.gameOver && mc.gameStarted &&
+        if (!mc.gameOver && mc.gameStarted && mc.currentDurationMe > 0.0f && mc.countdownTimeMe <= 0.0f &&
             PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
         {
             if (Input.touchCount > 0 && Application.isEditor)
@@ -30,7 +30,7 @@ public class ButtonMultiplayerController : MonoBehaviour
                         hit.collider.gameObject.Equals(myButton))
                     {
                         //Increments tap count and send info to other player
-                        //mc.IncrementMyTapCount();
+                        mc.IncrementMyTapCount();
 
                         GameObject myClick = Instantiate(soundClick) as GameObject;
                         Destroy(myClick, 1.0f);
@@ -49,7 +49,7 @@ public class ButtonMultiplayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 //Increments tap count and send info to other player
-                //mc.IncrementMyTapCount();
+                mc.IncrementMyTapCount();
 
                 GameObject myClick = Instantiate(soundClick) as GameObject;
                 Destroy(myClick, 1.0f);

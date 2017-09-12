@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AdsController : MonoBehaviour {
+public class AdsController : MonoBehaviour
+{
 
-    private RewardBasedVideoAd rewardBasedVideoAd;
+    public RewardBasedVideoAd rewardBasedVideoAd;
     public Text addsText;
 
     public bool wantToLoadAd;
@@ -27,12 +28,35 @@ public class AdsController : MonoBehaviour {
         rewardBasedVideoAd.OnAdOpening += HandleOnAdOpening;
         rewardBasedVideoAd.OnAdRewarded += HandleOnAdRewarded;
         rewardBasedVideoAd.OnAdStarted += HandleOnAdStarted;
+
+        InvokeRepeating("TryLoadingAd", 1.0f, 2.0f);
+    }
+
+    public void TryLoadingAd()
+    {
+        addsText.text = "Trying To Load Ad" + System.Environment.NewLine + " ........." + UnityEngine.Random.Range(9, 99);
+        if (!rewardBasedVideoAd.IsLoaded())
+        {
+            string adUnitId = "ca-app-pub-2936227452105377/2559504686";
+
+#if UNITY_EDITOR
+            adUnitId = "unused";
+#endif
+
+            AdRequest request = new AdRequest.Builder().Build();
+            rewardBasedVideoAd.LoadAd(request, adUnitId);
+        }
     }
 
     public void Update()
-    {
+    {/*
         if (wantToLoadAd)
         {
+
+            addsText.text = "Trying To Load Ad" + System.Environment.NewLine + " ........." + UnityEngine.Random.Range(9, 99);
+            addsText.text += System.Environment.NewLine + "IsLoaded: " + rewardBasedVideoAd.IsLoaded().ToString();
+            LoadRewardBasedAd();
+            
             if (!rewardBasedVideoAd.IsLoaded())
             {
                 LoadRewardBasedAd();
@@ -41,7 +65,9 @@ public class AdsController : MonoBehaviour {
             {
                 wantToLoadAd = false;
             }
+            
         }
+    */
     }
 
     public void ShowRewardBasedAd()
@@ -60,7 +86,7 @@ public class AdsController : MonoBehaviour {
 
     void LoadRewardBasedAd()
     {
-        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        string adUnitId = "ca-app-pub-2936227452105377/2559504686";
 
 #if UNITY_EDITOR
         adUnitId = "unused";
@@ -73,6 +99,7 @@ public class AdsController : MonoBehaviour {
     public void HandleOnAdLoaded(object sender, EventArgs args)
     {
         addsText.text += "Ads Loaded" + System.Environment.NewLine;
+        wantToLoadAd = false;
     }
     public void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
     {

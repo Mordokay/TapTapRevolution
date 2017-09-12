@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text;
 
 public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListener
 {
@@ -19,13 +20,18 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     public uint MinOpponents = 1, MaxOpponents = 1;
     public Text feedbackText;
+    public Text messagesReceived;
 
     public GameObject MenuCanvas;
     public GameObject MultiplayerCanvas;
     public GameObject MultiplayerObjects;
 
+    MultiplayerController mc;
+
     void Start()
     {
+        mc = this.GetComponent<MultiplayerController>();
+
         var config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
 
@@ -43,8 +49,6 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         {
             SignIn();
         }
-
-        InvokeRepeating("SendShit", 0.0f, 2.0f);
     }
 
     void StartMultiplayerGame()
@@ -52,6 +56,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         MultiplayerCanvas.SetActive(true);
         MultiplayerObjects.SetActive(true);
         MenuCanvas.SetActive(false);
+        mc.gameStarted = true;
     }
 
     void LeaveMultiplayerGame()
@@ -59,6 +64,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         MultiplayerCanvas.SetActive(false);
         MultiplayerObjects.SetActive(false);
         MenuCanvas.SetActive(true);
+        mc.Start();
     }
 
     public void SignIn()
@@ -133,11 +139,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     public void CreateQuickGame(int gameVariant)
     {
-        PlayGamesPlatform.Instance.RealTime.CreateQuickGame(MinOpponents, MaxOpponents,
-                    (uint)gameVariant, this);
-        PlayerPrefs.SetInt("MultiplayerMode", gameVariant);
-        /*
-        if (PlayGamesPlatform.Instance.RealTime.GetSelf().IsConnectedToRoom)
+        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count != 0)
         {
             PlayGamesPlatform.Instance.RealTime.LeaveRoom();
         }
@@ -145,14 +147,14 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         {
             PlayGamesPlatform.Instance.RealTime.CreateQuickGame(MinOpponents, MaxOpponents,
                     (uint)gameVariant, this);
-            PlayerPrefs.SetInt("MultiplayerMode", gameVariant);
+
+        mc.multiplayerMode = gameVariant;
         }
-        */
     }
 
     public void OnRoomSetupProgress(float percent)
     {
-        feedbackText.text = "Room creation progress: " + percent;
+        feedbackText.text = "Connecting to game ...";
     }
 
     public void OnRoomConnected(bool success)
@@ -160,6 +162,8 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         if (success)
         {
             feedbackText.text = "Connected to room";
+            StartMultiplayerGame();
+
         }
         else
         {
@@ -187,61 +191,45 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         throw new NotImplementedException();
     }
 
-    public static Participant GetOpponent()
-    {
-        foreach (Participant p in PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants())
-        {
-            if (!p.ParticipantId.Equals(PlayGamesPlatform.Instance.RealTime.GetSelf().ParticipantId))
-            {
-                return p;
-            }
-        }
-        return null;
-    }
-
     public void OnRealTimeMessageReceived(bool isReliable, string senderId, byte[] data)
     {
-        if (data[0] == (byte)'I')
+        string thisMessage = Encoding.ASCII.GetString(data);
+        string[] raw = thisMessage.Split(new string[] { ":" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        if(raw[0] == "T")
         {
-            feedbackText.text +=  System.Environment.NewLine +  "Recieved " + data[1].ToString() + " from: " + senderId;
-            foreach (Participant p in PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants())
-            {
-                feedbackText.text += System.Environment.NewLine + p.DisplayName + " <> " + p.ParticipantId;
-            }
+            mc.tapCountOther = int.Parse(raw[1]);
+            //messagesReceived.text = "Recieved message Taps!!!";
+        }
+        else if (raw[0] == "CD")
+        {
+            mc.currentDurationOther = float.Parse(raw[1]);
+            //messagesReceived.text = "Recieved message countdownTime!!!";
+        }
+        else
+        {
+            //messagesReceived.text = "Recieved other shit!";
         }
     }
 
     public void LeaveGame()
     {
         PlayGamesPlatform.Instance.RealTime.LeaveRoom();
+        LeaveMultiplayerGame();
     }
 
-    public void SendShit()
+    public void SendMyMessage(string message, bool reliable)
     {
-        if (PlayGamesPlatform.Instance.localUser.authenticated && PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
-        {
-            feedbackText.text = "Send Shit  " + Time.timeSinceLevelLoad + " <from> " +  PlayGamesPlatform.Instance.RealTime.GetSelf().DisplayName;
-            
-            string otherPlayerID = GetOpponent().ParticipantId;
+        //messagesReceived.text = "Sending message: " + message;
+        byte[] myMessage = Encoding.ASCII.GetBytes(message);
+        //bool reliable = true;
+        string participantId = mc.playerOther.ParticipantId;
 
-            byte[] mPosPacket = new byte[2];
-            mPosPacket[0] = (byte)'I';
-            mPosPacket[1] = (byte)(UnityEngine.Random.Range(0, 10));
-
-            PlayGamesPlatform.Instance.RealTime.SendMessage(true, otherPlayerID, mPosPacket); 
-        }
+        PlayGamesPlatform.Instance.RealTime.SendMessage(reliable, participantId, myMessage);
     }
 
     public void Update()
     {
-        /*
-        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
-        {
-            //SendShit();
-            //SceneManager.LoadScene(2);
-        }
-
-        else */
         if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count < 2)
         {
             feedbackText.text = "Connected Players: " + PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count.ToString();
@@ -250,6 +238,5 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
                 feedbackText.text += System.Environment.NewLine + p.DisplayName;
             }
         }
-        
     }
 }

@@ -9,8 +9,6 @@ public class ButtonController : MonoBehaviour {
     public GameObject myButton;
 
     public TextMesh tapScoreText;
-    int fingerId;
-    bool fingerLocked;
 
     public Text myTotalTapText;
 
@@ -30,8 +28,6 @@ public class ButtonController : MonoBehaviour {
             tapScoreText.text = "";
             myTotalTapText.text = "TOTAL TAPS: " + PlayerPrefs.GetInt("TapCount");
         }
-
-        fingerLocked = false;
     }
 
     void UpdateScore() {
@@ -88,9 +84,6 @@ public class ButtonController : MonoBehaviour {
                     if (hit.collider != null && hit.collider.tag.Equals("Button") &&
                         hit.collider.gameObject.Equals(myButton))
                     {
-                        fingerId = Input.touches[0].fingerId;
-                        fingerLocked = true;
-
                         tapCount++;
 
                         GameObject myClick = Instantiate(soundClick) as GameObject;

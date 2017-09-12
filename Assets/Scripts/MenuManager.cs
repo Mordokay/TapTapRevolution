@@ -21,8 +21,6 @@ public class MenuManager : MonoBehaviour {
     public float lastVolume;
     public bool wasMutedBefore;
 
-    GameObject soundtrack;
-
     public GameObject multiplayerMainPanel;
     public GameObject multiplayerOptions;
     public GameObject standardPanel;
@@ -34,11 +32,11 @@ public class MenuManager : MonoBehaviour {
         {
             Destroy(mySoundtracks[i]);
         }
-
-        if (!GameObject.FindGameObjectWithTag("Soundtrack").Equals(soundtrack) || Time.timeSinceLevelLoad < 5.0f)
+        if(mySoundtracks.Length == 1)
         {
-            DontDestroyOnLoad(soundtrack);
+            DontDestroyOnLoad(mySoundtracks[0]);
         }
+
         lastVolume = PlayerPrefs.GetFloat("volume");
         AudioListener.volume = PlayerPrefs.GetFloat("volume");
         soundSlider.value = PlayerPrefs.GetFloat("volume");

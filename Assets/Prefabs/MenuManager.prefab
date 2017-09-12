@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1403822525962446}
+  m_IsPrefabParent: 1
+--- !u!1 &1403822525962446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4295886748366832}
+  - component: {fileID: 114161731647880924}
+  - component: {fileID: 114342526545932540}
+  - component: {fileID: 114738263816585240}
+  - component: {fileID: 114353160109500648}
+  m_Layer: 0
+  m_Name: MenuManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4295886748366832
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403822525962446}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114161731647880924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403822525962446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e709ec200a54b3a448d78300b85f414b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginInfo: {fileID: 0}
+  signInButton: {fileID: 0}
+  signOutButton: {fileID: 0}
+  leaderboardButton: {fileID: 0}
+  archievementButton: {fileID: 0}
+  MinOpponents: 1
+  MaxOpponents: 1
+  feedbackText: {fileID: 0}
+  messagesReceived: {fileID: 0}
+  MenuCanvas: {fileID: 0}
+  MultiplayerCanvas: {fileID: 0}
+  MultiplayerObjects: {fileID: 0}
+--- !u!114 &114342526545932540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403822525962446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c6071955d94d0241b876e7acc464e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addsText: {fileID: 0}
+  wantToLoadAd: 0
+--- !u!114 &114353160109500648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403822525962446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fbb79371f8d03a47a598be7f411cf8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplayerMode: 0
+  timeSlider: {fileID: 0}
+  currentDurationMe: 0
+  currentDurationOther: 0
+  tapCountMe: 0
+  tapCountOther: 0
+  gameOver: 0
+  iWin: 0
+  IWinPanel: {fileID: 0}
+  ILostPanel: {fileID: 0}
+  countdownPanel: {fileID: 0}
+  countdownTimeMe: 0
+  messagesRecievedText: {fileID: 0}
+  gameModeText: {fileID: 0}
+  playerMeTaps: {fileID: 0}
+  playerOtherTaps: {fileID: 0}
+  gameStarted: 0
+  gameInitialized: 0
+--- !u!114 &114738263816585240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403822525962446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5e644ae6c7a8d40a7479dd3e76fa9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 0}
+  singleplayerMenu: {fileID: 0}
+  multiplayerMenu: {fileID: 0}
+  options: {fileID: 0}
+  MutedButton: {fileID: 0}
+  UnmutedButton: {fileID: 0}
+  multiplayerFeedbackText: {fileID: 0}
+  soundSlider: {fileID: 0}
+  lastVolume: 0
+  wasMutedBefore: 0
+  multiplayerMainPanel: {fileID: 0}
+  multiplayerOptions: {fileID: 0}
+  standardPanel: {fileID: 0}

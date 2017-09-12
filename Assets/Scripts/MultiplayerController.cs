@@ -8,18 +8,18 @@ using UnityEngine.UI;
 using System;
 using System.Text;
 
-public class MultiplayerController : MonoBehaviour//, RealTimeMultiplayerListener
+public class MultiplayerController : MonoBehaviour
 {
-    int multiplayerMode;
+    public int multiplayerMode;
     public GameObject timeSlider;
 
-    float currentDurationMe;
-    float currentDurationOther;
-    public float tapCountMe;
-    public float tapCountOther;
+    public float currentDurationMe;
+    public float currentDurationOther;
+    public int tapCountMe;
+    public int tapCountOther;
 
-    Participant playerMe;
-    Participant playerOther;
+    public Participant playerMe;
+    public Participant playerOther;
 
     float startDuration;
 
@@ -31,23 +31,185 @@ public class MultiplayerController : MonoBehaviour//, RealTimeMultiplayerListene
 
     public GameObject countdownPanel;
     public float countdownTimeMe;
-    public float countdownTimeOther;
+    //public float countdownTimeOther;
 
-    public Text debugText;
     public Text messagesRecievedText;
     public Text gameModeText;
-    public Text player1Taps;
-    public Text player2Taps;
+    public Text playerMeTaps;
+    public Text playerOtherTaps;
 
     public bool gameStarted;
+    public bool gameInitialized;
+    GooglePlayServicesManager gpsm;
 
-    private void Start()
+    public void Start()
     {
-        
+        gpsm = this.GetComponent<GooglePlayServicesManager>();
+        gameInitialized = false;
+
+        countdownTimeMe = 5.0f;
+        //countdownTimeOther = 5.0f;
+        countdownPanel.SetActive(true);
+
+        tapCountMe = 0;
+        tapCountOther = 0;
+        currentDurationMe = 999.0f;
+        currentDurationOther = 999.0f;
+        gameStarted = false;
+        gameOver = false;
+        iWin = false;
+
+        IWinPanel.SetActive(false);
+        ILostPanel.SetActive(false);
+        timeSlider.GetComponent<Slider>().value = 1.0f;
+        //messagesRecievedText.text = "No messages Received :(";
     }
+
+    void checkWinLossStandard()
+    {
+        gameOver = true;
+
+        //  I Win
+        if (tapCountMe > tapCountOther)
+        {
+            iWin = true;
+        }
+        else //  I Lose
+        {
+            iWin = false;
+        }
+    }
+
+    void CheckOtherPlayerLeft()
+    {
+        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 1)
+        {
+            gameOver = true;
+            iWin = true;
+        }
+    }
+
+    public void IncrementMyTapCount()
+    {
+        tapCountMe++;
+        //TODO: Send info to other player;
+
+        gpsm.SendMyMessage("T:" + tapCountMe.ToString(), true);
+        //SendMyMessage("tapCount:" + tapCountMe);
+    }
+
     private void Update()
     {
-        
+        if (gameStarted)
+        {
+            //gpsm.SendMyMessage("CD:" + currentDurationMe.ToString());
+            if (!gameInitialized)
+            {
+                gameInitialized = true;
+
+                if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants()[0].DisplayName.Equals(PlayGamesPlatform.Instance.localUser.userName))
+                {
+                    playerMe = PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants()[0];
+                    playerOther = PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants()[1];
+                }
+                else
+                {
+                    playerMe = PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants()[1];
+                    playerOther = PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants()[0];
+                }
+
+                switch (multiplayerMode)
+                {
+                    case 0: //Standard Mode 15s
+                        startDuration = 15.0f;
+                        currentDurationMe = 15.0f;
+                        gameModeText.text = "Game Mode: Standard 15";
+                        timeSlider.GetComponentInChildren<Text>().text = startDuration + "s";
+                        break;
+                    case 1: //Standard Mode 30s
+                        startDuration = 30.0f;
+                        currentDurationMe = 30.0f;
+                        gameModeText.text = "Game Mode: Standard 30";
+                        timeSlider.GetComponentInChildren<Text>().text = startDuration + "s";
+                        break;
+                    case 2: //Standard Mode 60s
+                        startDuration = 60.0f;
+                        currentDurationMe = 60.0f;
+                        gameModeText.text = "Game Mode: Standard 60";
+                        timeSlider.GetComponentInChildren<Text>().text = startDuration + "s";
+                        break;
+                    case 3:  //Race Mode
+                        timeSlider.SetActive(false);
+                        gameModeText.text = "Game Mode: Race";
+                        break;
+                    case 4:  //Balance Mode
+                        timeSlider.SetActive(false);
+                        gameModeText.text = "Game Mode: Balance";
+                        break;
+                }
+
+                //gameModeText.text = "Me: " + playerMe.DisplayName + "  PlayerOther:  " + playerOther.DisplayName + " " + Time.timeSinceLevelLoad;
+            }
+
+            if (gameOver)
+            {
+                if (iWin)
+                {
+                    IWinPanel.SetActive(true);
+                    ILostPanel.SetActive(false);
+                }
+                else
+                {
+                    IWinPanel.SetActive(false);
+                    ILostPanel.SetActive(true);
+                }
+            }
+            else
+            {
+                CheckOtherPlayerLeft();
+
+                playerMeTaps.text = playerMe.DisplayName + ": " + tapCountMe;
+                playerOtherTaps.text = playerOther.DisplayName + ": " + tapCountOther;
+
+                if (countdownTimeMe > 0.0f)
+                {
+                    countdownTimeMe -= Time.deltaTime;
+                    countdownPanel.GetComponentInChildren<Text>().text = ((int)countdownTimeMe + 1).ToString();
+                }
+                else
+                {
+                    gpsm.SendMyMessage("CD:" + currentDurationMe.ToString(), false);
+
+                    if (countdownPanel.activeSelf)
+                    {
+                        countdownPanel.SetActive(false);
+                    }
+
+                    //Standard Mode
+                    if (multiplayerMode == 0 || multiplayerMode == 1 || multiplayerMode == 2)
+                    {
+                        if(currentDurationMe < 0.0f)
+                        {
+                            if(currentDurationOther < 0.0f)
+                            {
+                                checkWinLossStandard();
+                            }
+                        }
+                        else
+                        {
+                            //messagesRecievedText.text = "currentDurationMe: " + currentDurationMe + " currentDurationOther: " + currentDurationOther;
+
+                            currentDurationMe -= Time.deltaTime;
+
+                            timeSlider.GetComponent<Slider>().value = currentDurationMe / startDuration;
+
+                            timeSlider.GetComponentInChildren<Text>().text =
+                                (int)(timeSlider.GetComponent<Slider>().value * startDuration) + "s";
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -133,7 +295,6 @@ byte[] mPosPacket = new byte[2];
 mPosPacket[0] = (byte)'I';
 mPosPacket[1] = (byte)'D';
 PlayGamesPlatform.Instance.RealTime.SendMessageToAll(false, mPosPacket);
-
 
 //byte[] myMessage = System.Text.Encoding.Unicode.GetBytes(message);
 byte[] myMessage = System.Text.ASCIIEncoding.Default.GetBytes(message);

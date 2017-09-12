@@ -28,9 +28,12 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     MultiplayerController mc;
 
+    bool connectingToRoom;
+
     void Start()
     {
         mc = this.GetComponent<MultiplayerController>();
+        connectingToRoom = false;
 
         var config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
@@ -47,6 +50,11 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         }
         else
         {
+            loginInfo.text = "Not Signed In";
+            signInButton.SetActive(true);
+            signOutButton.SetActive(false);
+            leaderboardButton.interactable = false;
+            archievementButton.interactable = false;
             SignIn();
         }
     }
@@ -100,6 +108,10 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         }
         else
         {
+            signInButton.SetActive(true);
+            signOutButton.SetActive(false);
+            leaderboardButton.interactable = false;
+            archievementButton.interactable = false;
             loginInfo.text = "Sign-in failed.";
         }
     }
@@ -148,26 +160,27 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             PlayGamesPlatform.Instance.RealTime.CreateQuickGame(MinOpponents, MaxOpponents,
                     (uint)gameVariant, this);
 
-        mc.multiplayerMode = gameVariant;
+            mc.multiplayerMode = gameVariant;
+            connectingToRoom = true;
         }
     }
 
     public void OnRoomSetupProgress(float percent)
     {
-        feedbackText.text = "Connecting to game ...";
+        //feedbackText.text = "Connecting to game ...";
     }
 
     public void OnRoomConnected(bool success)
     {
+        connectingToRoom = false;
         if (success)
         {
-            feedbackText.text = "Connected to room";
+            //feedbackText.text = "Connected to room";
             StartMultiplayerGame();
-
         }
         else
         {
-            feedbackText.text = "Could not connect to a room. Please check if you are connected to google play services.";
+            //feedbackText.text = "Could not connect to a room. Please check if you are connected to google play services.";
         }
     }
 
@@ -230,13 +243,31 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     public void Update()
     {
-        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count < 2)
+        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 0)
         {
-            feedbackText.text = "Connected Players: " + PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count.ToString();
-            foreach (Participant p in PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants())
+            if (connectingToRoom)
             {
-                feedbackText.text += System.Environment.NewLine + p.DisplayName;
+                feedbackText.text = "Connecting To Server ...";
+            }
+            else
+            {
+                feedbackText.text = "Not connected ...";
             }
         }
+        else if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 1)
+        {
+            feedbackText.text = "Finding Match ...";
+        }
+        else if (MenuCanvas.activeSelf && PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
+        {
+            feedbackText.text = "Match Found";
+        }
+        /*
+        feedbackText.text = "Connected Players: " + PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count.ToString();
+        foreach (Participant p in PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants())
+        {
+            feedbackText.text += System.Environment.NewLine + p.DisplayName;
+        }
+        */
     }
 }

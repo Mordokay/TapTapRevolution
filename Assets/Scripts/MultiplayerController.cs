@@ -181,8 +181,6 @@ public class MultiplayerController : MonoBehaviour
                 }
                 else
                 {
-                    gpsm.SendMyMessage("CD:" + currentDurationMe.ToString(), false);
-
                     if (countdownPanel.activeSelf)
                     {
                         countdownPanel.SetActive(false);
@@ -193,7 +191,8 @@ public class MultiplayerController : MonoBehaviour
                     {
                         if(currentDurationMe < 0.0f)
                         {
-                            if(currentDurationOther < 0.0f)
+                            gpsm.SendMyMessage("CD:" + currentDurationMe.ToString(), true);
+                            if (currentDurationOther < 0.0f)
                             {
                                 checkWinLossStandard();
                             }

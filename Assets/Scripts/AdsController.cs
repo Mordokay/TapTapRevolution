@@ -11,6 +11,7 @@ public class AdsController : MonoBehaviour
 
     public RewardBasedVideoAd rewardBasedVideoAd;
     public Text addsText;
+    public Button watchAdButton;
 
     public bool wantToLoadAd;
 
@@ -49,7 +50,17 @@ public class AdsController : MonoBehaviour
     }
 
     public void Update()
-    {/*
+    {
+        if (rewardBasedVideoAd.IsLoaded())
+        {
+            watchAdButton.interactable = true;
+        }
+        else
+        {
+            watchAdButton.interactable = false;
+        }
+
+        /*
         if (wantToLoadAd)
         {
 
@@ -72,10 +83,7 @@ public class AdsController : MonoBehaviour
 
     public void ShowRewardBasedAd()
     {
-        if (rewardBasedVideoAd.IsLoaded())
-        {
-            rewardBasedVideoAd.Show();
-        }
+        rewardBasedVideoAd.Show();
     }
 
     public void requestLoadOfAd()

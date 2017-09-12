@@ -1296,6 +1296,11 @@ Prefab:
       propertyPath: tapScoreText
       value: 
       objectReference: {fileID: 226871766}
+    - target: {fileID: 114342526545932540, guid: 60b4b26b7a5f21149b21e077c21e1add,
+        type: 2}
+      propertyPath: watchAdButton
+      value: 
+      objectReference: {fileID: 1510808627}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60b4b26b7a5f21149b21e077c21e1add, type: 2}
   m_IsPrefabParent: 0

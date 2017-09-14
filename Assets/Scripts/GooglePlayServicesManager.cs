@@ -30,6 +30,10 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     bool connectingToRoom;
 
+    public GameObject multiplayerFindPlayerPanel;
+    public GameObject leaveSearchButton;
+    public GameObject multiplayerStandardPanel;
+
     void Start()
     {
         mc = this.GetComponent<MultiplayerController>();
@@ -71,6 +75,10 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
     {
         MultiplayerCanvas.SetActive(false);
         MultiplayerObjects.SetActive(false);
+
+        multiplayerFindPlayerPanel.SetActive(true);
+        leaveSearchButton.SetActive(false);
+
         MenuCanvas.SetActive(true);
         mc.Start();
     }
@@ -162,6 +170,10 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
             mc.multiplayerMode = gameVariant;
             connectingToRoom = true;
+
+            leaveSearchButton.SetActive(true);
+            multiplayerStandardPanel.SetActive(false);
+            multiplayerFindPlayerPanel.SetActive(false);
         }
     }
 
@@ -241,33 +253,39 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         PlayGamesPlatform.Instance.RealTime.SendMessage(reliable, participantId, myMessage);
     }
 
+
+    public void LeaveSearch()
+    {
+        PlayGamesPlatform.Instance.RealTime.LeaveRoom();
+        multiplayerFindPlayerPanel.SetActive(true);
+        leaveSearchButton.SetActive(false);
+
+        connectingToRoom = false;
+    }
+
     public void Update()
     {
-        if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 0)
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
-            if (connectingToRoom)
+            if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 0)
             {
-                feedbackText.text = "Connecting To Server ...";
+                if (connectingToRoom)
+                {
+                    feedbackText.text = "Connecting To Server ...";
+                }
+                else
+                {
+                    feedbackText.text = "Not connected to game server ...";
+                }
             }
-            else
+            else if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 1)
             {
-                feedbackText.text = "Not connected ...";
+                feedbackText.text = "Finding Match ...";
+            }
+            else if (MenuCanvas.activeSelf && PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
+            {
+                feedbackText.text = "Match Found";
             }
         }
-        else if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 1)
-        {
-            feedbackText.text = "Finding Match ...";
-        }
-        else if (MenuCanvas.activeSelf && PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
-        {
-            feedbackText.text = "Match Found";
-        }
-        /*
-        feedbackText.text = "Connected Players: " + PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count.ToString();
-        foreach (Participant p in PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants())
-        {
-            feedbackText.text += System.Environment.NewLine + p.DisplayName;
-        }
-        */
     }
 }

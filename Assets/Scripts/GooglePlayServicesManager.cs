@@ -15,6 +15,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
     public Text loginInfo;
     public GameObject signInButton;
     public GameObject signOutButton;
+    public Button multiplayerButton;
     public Button leaderboardButton;
     public Button archievementButton;
 
@@ -49,6 +50,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             loginInfo.text = "Signed In: " + PlayGamesPlatform.Instance.localUser.userName;
             signInButton.SetActive(false);
             signOutButton.SetActive(true);
+            multiplayerButton.interactable = true;
             leaderboardButton.interactable = true;
             archievementButton.interactable = true;
         }
@@ -57,9 +59,12 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             loginInfo.text = "Not Signed In";
             signInButton.SetActive(true);
             signOutButton.SetActive(false);
+            multiplayerButton.interactable = false;
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
-            SignIn();
+
+            //Do not try to sign in when entering the menu. Player must click the sign in button to login.
+            //SignIn();
         }
     }
 
@@ -100,6 +105,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             signOutButton.SetActive(false);
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
+            multiplayerButton.interactable = false;
         }
     }
 
@@ -109,10 +115,15 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         {
             loginInfo.text = "Signed In: " + PlayGamesPlatform.Instance.localUser.userName;
             UpdateLeaderboards();
+            UpdateAchievements();
+
+            UnlockAchievement(TapTapRevolutionResources.achievement_login);
+
             signInButton.SetActive(false);
             signOutButton.SetActive(true);
             leaderboardButton.interactable = true;
             archievementButton.interactable = true;
+            multiplayerButton.interactable = true;
         }
         else
         {
@@ -120,6 +131,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             signOutButton.SetActive(false);
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
+            multiplayerButton.interactable = false;
             loginInfo.text = "Sign-in failed.";
         }
     }
@@ -130,6 +142,27 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         AddScoreToLeaderboard(TapTapRevolutionResources.leaderboard_new_15_seconds, PlayerPrefs.GetInt("Best15"));
         AddScoreToLeaderboard(TapTapRevolutionResources.leaderboard_30_seconds, PlayerPrefs.GetInt("Best30"));
         AddScoreToLeaderboard(TapTapRevolutionResources.leaderboard_60_seconds, PlayerPrefs.GetInt("Best60"));
+    }
+
+    void UpdateAchievements()
+    {
+        if (PlayerPrefs.GetInt("Best15") >= 50){UnlockAchievement(TapTapRevolutionResources.achievement_the_50_in_15);}
+        if (PlayerPrefs.GetInt("Best15") >= 100){UnlockAchievement(TapTapRevolutionResources.achievement_the_100_in_15);}
+        if (PlayerPrefs.GetInt("Best15") >= 150){UnlockAchievement(TapTapRevolutionResources.achievement_the_150_in_15);}
+        if (PlayerPrefs.GetInt("Best15") >= 200){UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_15);}
+        if (PlayerPrefs.GetInt("Best15") >= 250){UnlockAchievement(TapTapRevolutionResources.achievement_you_are_15__awesome);}
+
+        if (PlayerPrefs.GetInt("Best30") >= 100){UnlockAchievement(TapTapRevolutionResources.achievement_the_100_in_30);}
+        if (PlayerPrefs.GetInt("Best30") >= 200){UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_30);}
+        if (PlayerPrefs.GetInt("Best30") >= 300){UnlockAchievement(TapTapRevolutionResources.achievement_the_300_in_30);}
+        if (PlayerPrefs.GetInt("Best30") >= 400){UnlockAchievement(TapTapRevolutionResources.achievement_the_400_in_30);}
+        if (PlayerPrefs.GetInt("Best30") >= 500){UnlockAchievement(TapTapRevolutionResources.achievement_you_are_30_awesome);}
+
+        if (PlayerPrefs.GetInt("Best60") >= 200){UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_60);}
+        if (PlayerPrefs.GetInt("Best60") >= 400){UnlockAchievement(TapTapRevolutionResources.achievement_the_400_in_60);}
+        if (PlayerPrefs.GetInt("Best60") >= 600){UnlockAchievement(TapTapRevolutionResources.achievement_the_600_in_60);}
+        if (PlayerPrefs.GetInt("Best60") >= 800){UnlockAchievement(TapTapRevolutionResources.achievement_the_800_in_60);}
+        if (PlayerPrefs.GetInt("Best60") >= 1000){UnlockAchievement(TapTapRevolutionResources.achievement_you_are_60_awesome);}
     }
 
     public void UnlockAchievement(string id)
@@ -231,15 +264,17 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             mc.currentDurationOther = float.Parse(raw[1]);
             //messagesReceived.text = "Recieved message countdownTime!!!";
         }
-        else
+        else if(thisMessage == "L")
         {
-            //messagesReceived.text = "Recieved other shit!";
+            mc.gameOver = true;
+            mc.iWin = true;
         }
     }
 
     public void LeaveGame()
     {
         PlayGamesPlatform.Instance.RealTime.LeaveRoom();
+        SendMyMessage("L", true);
         LeaveMultiplayerGame();
     }
 
@@ -267,6 +302,17 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
     {
         if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
+            if (!multiplayerButton.IsInteractable())
+            {
+                UpdateLeaderboards();
+                UpdateAchievements();
+                loginInfo.text = "Signed In: " + PlayGamesPlatform.Instance.localUser.userName;
+                signInButton.SetActive(false);
+                signOutButton.SetActive(true);
+                multiplayerButton.interactable = true;
+                leaderboardButton.interactable = true;
+                archievementButton.interactable = true;
+            }
             if (PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 0)
             {
                 if (connectingToRoom)

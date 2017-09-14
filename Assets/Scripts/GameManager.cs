@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour {
     public void BackToMenu()
     {
         SceneManager.LoadScene(0);
-
         UpdateBestScores();
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GooglePlayGames;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +45,11 @@ public class ButtonController : MonoBehaviour {
         }
     }
 
+    public void UnlockAchievement(string id)
+    {
+        PlayGamesPlatform.Instance.ReportProgress(id, 100, success => { });
+    }
+
     void CheckBestScore()
     {
         switch (gm.roundDuration)
@@ -51,6 +57,26 @@ public class ButtonController : MonoBehaviour {
             case 15:
                 if (tapCount > PlayerPrefs.GetInt("Best15"))
                 {
+                    if(tapCount == 50)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_50_in_15);
+                    }
+                    else if(tapCount == 100)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_100_in_15);
+                    }
+                    else if (tapCount == 150)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_150_in_15);
+                    }
+                    else if (tapCount == 200)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_15);
+                    }
+                    else if (tapCount > 250)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_you_are_15__awesome);
+                    }
                     PlayerPrefs.SetInt("Best15", tapCount);
                     gm.BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best15").ToString();
                 }
@@ -58,6 +84,26 @@ public class ButtonController : MonoBehaviour {
             case 30:
                 if (tapCount > PlayerPrefs.GetInt("Best30"))
                 {
+                    if (tapCount == 100)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_100_in_30);
+                    }
+                    else if (tapCount == 200)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_30);
+                    }
+                    else if (tapCount == 300)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_300_in_30);
+                    }
+                    else if (tapCount == 400)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_400_in_30);
+                    }
+                    else if (tapCount > 500)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_you_are_30_awesome);
+                    }
                     PlayerPrefs.SetInt("Best30", tapCount);
                     gm.BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best30").ToString();
                 }
@@ -65,6 +111,27 @@ public class ButtonController : MonoBehaviour {
             case 60:
                 if (tapCount > PlayerPrefs.GetInt("Best60"))
                 {
+                    if (tapCount == 200)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_200_in_60);
+                    }
+                    else if (tapCount == 400)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_400_in_60);
+                    }
+                    else if (tapCount == 600)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_600_in_60);
+                    }
+                    else if (tapCount == 800)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_the_800_in_60);
+                    }
+                    else if (tapCount > 1000)
+                    {
+                        UnlockAchievement(TapTapRevolutionResources.achievement_you_are_60_awesome);
+                    }
+
                     PlayerPrefs.SetInt("Best60", tapCount);
                     gm.BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best60").ToString();
                 }

@@ -18,7 +18,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
     public Button leaderboardButton;
     public Button archievementButton;
 
-    public GameObject multiplayerButton;
+    public Button multiplayerButton;
 
     public uint MinOpponents = 1, MaxOpponents = 1;
     public Text feedbackText;
@@ -41,7 +41,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         mc = this.GetComponent<MultiplayerController>();
         connectingToRoom = false;
 
-        var config = new PlayGamesClientConfiguration.Builder().Build();
+        var config = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
         PlayGamesPlatform.InitializeInstance(config);
 
         if (PlayGamesPlatform.Instance.localUser.authenticated)
@@ -53,10 +53,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             signOutButton.SetActive(true);
             leaderboardButton.interactable = true;
             archievementButton.interactable = true;
-            if (multiplayerButton.activeSelf)
-            {
-                multiplayerButton.GetComponent<Button>().interactable = true;
-            }
+            multiplayerButton.interactable = true;
         }
         else
         {
@@ -65,12 +62,10 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             signOutButton.SetActive(false);
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
-            if (multiplayerButton.activeSelf)
-            {
-                multiplayerButton.GetComponent<Button>().interactable = false;
-            }
+            multiplayerButton.interactable = false;
+
             //Do not try to sign in when entering the menu. Player must click the sign in button to login.
-            SignIn();
+            //SignIn();
         }
     }
 
@@ -84,13 +79,13 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
 
     void LeaveMultiplayerGame()
     {
-        MenuCanvas.SetActive(true);
         MultiplayerCanvas.SetActive(false);
         MultiplayerObjects.SetActive(false);
 
         multiplayerFindPlayerPanel.SetActive(true);
         leaveSearchButton.SetActive(false);
-        
+
+        MenuCanvas.SetActive(true);
         mc.Start();
     }
 
@@ -111,10 +106,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             signOutButton.SetActive(false);
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
-            if (multiplayerButton.activeSelf)
-            {
-                multiplayerButton.GetComponent<Button>().interactable = false;
-            }
+            multiplayerButton.interactable = false;
         }
     }
 
@@ -127,10 +119,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             UpdateAchievements();
             signInButton.SetActive(false);
             signOutButton.SetActive(true);
-            if (multiplayerButton.activeSelf)
-            {
-                multiplayerButton.GetComponent<Button>().interactable = true;
-            }
+            multiplayerButton.interactable = true;
             leaderboardButton.interactable = true;
             archievementButton.interactable = true;
         }
@@ -138,10 +127,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         {
             signInButton.SetActive(true);
             signOutButton.SetActive(false);
-            if (multiplayerButton.activeSelf)
-            {
-                multiplayerButton.GetComponent<Button>().interactable = false;
-            }
+            multiplayerButton.interactable = false;
             leaderboardButton.interactable = false;
             archievementButton.interactable = false;
             loginInfo.text = "Sign-in failed.";

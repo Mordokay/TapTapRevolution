@@ -24,26 +24,25 @@
 
 public static class TapTapRevolutionResources
 {
-        public const string achievement_the_150_in_15 = "CgkIpKLJn74EEAIQCg"; // <GPGSID>
-        public const string achievement_you_are_60_awesome = "CgkIpKLJn74EEAIQHA"; // <GPGSID>
-        public const string leaderboard_new_15_seconds = "CgkIpKLJn74EEAIQFw"; // <GPGSID>
-        public const string leaderboard_30_seconds = "CgkIpKLJn74EEAIQEw"; // <GPGSID>
-        public const string achievement_login = "CgkIpKLJn74EEAIQAA"; // <GPGSID>
-        public const string achievement_the_600_in_60 = "CgkIpKLJn74EEAIQGg"; // <GPGSID>
-        public const string achievement_the_400_in_30 = "CgkIpKLJn74EEAIQEA"; // <GPGSID>
-        public const string achievement_the_300_in_30 = "CgkIpKLJn74EEAIQDw"; // <GPGSID>
-        public const string achievement_the_200_in_30 = "CgkIpKLJn74EEAIQDg"; // <GPGSID>
-        public const string achievement_the_100_in_30 = "CgkIpKLJn74EEAIQDQ"; // <GPGSID>
-        public const string achievement_you_are_30_awesome = "CgkIpKLJn74EEAIQEg"; // <GPGSID>
-        public const string achievement_the_400_in_60 = "CgkIpKLJn74EEAIQGQ"; // <GPGSID>
-        public const string achievement_the_800_in_60 = "CgkIpKLJn74EEAIQGw"; // <GPGSID>
-        public const string achievement_you_are_15__awesome = "CgkIpKLJn74EEAIQEQ"; // <GPGSID>
-        public const string leaderboard_60_seconds = "CgkIpKLJn74EEAIQFA"; // <GPGSID>
-        public const string leaderboard_unlimited_mode = "CgkIpKLJn74EEAIQFQ"; // <GPGSID>
-        public const string achievement_the_200_in_15 = "CgkIpKLJn74EEAIQDA"; // <GPGSID>
-        public const string achievement_the_100_in_15 = "CgkIpKLJn74EEAIQHQ"; // <GPGSID>
-        public const string achievement_the_200_in_60 = "CgkIpKLJn74EEAIQGA"; // <GPGSID>
-        public const string achievement_the_50_in_15 = "CgkIpKLJn74EEAIQCw"; // <GPGSID>
+        public const string achievement_the_150_in_15 = "CgkInsD9g8YHEAIQAw"; // <GPGSID>
+        public const string achievement_you_are_60_awesome = "CgkInsD9g8YHEAIQDw"; // <GPGSID>
+        public const string leaderboard_30_seconds = "CgkInsD9g8YHEAIQEQ"; // <GPGSID>
+        public const string achievement_the_800_in_60 = "CgkInsD9g8YHEAIQDg"; // <GPGSID>
+        public const string achievement_the_600_in_60 = "CgkInsD9g8YHEAIQDQ"; // <GPGSID>
+        public const string leaderboard_unlimited_mode = "CgkInsD9g8YHEAIQEw"; // <GPGSID>
+        public const string achievement_the_400_in_30 = "CgkInsD9g8YHEAIQCQ"; // <GPGSID>
+        public const string achievement_the_300_in_30 = "CgkInsD9g8YHEAIQCA"; // <GPGSID>
+        public const string achievement_the_200_in_30 = "CgkInsD9g8YHEAIQBw"; // <GPGSID>
+        public const string achievement_the_100_in_30 = "CgkInsD9g8YHEAIQBg"; // <GPGSID>
+        public const string achievement_you_are_30_awesome = "CgkInsD9g8YHEAIQCg"; // <GPGSID>
+        public const string achievement_the_400_in_60 = "CgkInsD9g8YHEAIQDA"; // <GPGSID>
+        public const string achievement_you_are_15__awesome = "CgkInsD9g8YHEAIQBQ"; // <GPGSID>
+        public const string leaderboard_60_seconds = "CgkInsD9g8YHEAIQEg"; // <GPGSID>
+        public const string leaderboard_15_seconds = "CgkInsD9g8YHEAIQEA"; // <GPGSID>
+        public const string achievement_the_200_in_15 = "CgkInsD9g8YHEAIQBA"; // <GPGSID>
+        public const string achievement_the_100_in_15 = "CgkInsD9g8YHEAIQAg"; // <GPGSID>
+        public const string achievement_the_200_in_60 = "CgkInsD9g8YHEAIQCw"; // <GPGSID>
+        public const string achievement_the_50_in_15 = "CgkInsD9g8YHEAIQAQ"; // <GPGSID>
 
 }
 

@@ -1088,6 +1088,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4644314896117808, guid: c77a8243ba55ccb408cc6f14e8562df7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1119,6 +1124,206 @@ Prefab:
     - target: {fileID: 4644314896117808, guid: c77a8243ba55ccb408cc6f14e8562df7, type: 2}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[0].r
+      value: 0.34050602
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[0].g
+      value: 0.6117616
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[0].b
+      value: 0.9852941
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[1].g
+      value: 0.43452638
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[1].b
+      value: 0.43452638
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[2].r
+      value: 0.9338235
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[2].g
+      value: 0.8968873
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[2].b
+      value: 0.39824826
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[2].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[3].r
+      value: 0.69430256
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[3].g
+      value: 0.9852941
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[3].b
+      value: 0.5795848
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[3].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[4].r
+      value: 0.9485294
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[4].g
+      value: 0.7560338
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[4].b
+      value: 0.46729022
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[4].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[5].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[5].g
+      value: 0.50735295
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[5].b
+      value: 0.8640973
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[5].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[6].r
+      value: 0.77399844
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[6].g
+      value: 0.64797795
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[6].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[6].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[7].r
+      value: 0.6911765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[7].g
+      value: 0.6911765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[7].b
+      value: 0.6911765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[7].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[8].r
+      value: 0.42425388
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[8].g
+      value: 0.97794116
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[8].b
+      value: 0.97794116
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[8].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[9].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[9].g
+      value: 0.50735295
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[9].b
+      value: 0.5990872
+      objectReference: {fileID: 0}
+    - target: {fileID: 114507341003600598, guid: c77a8243ba55ccb408cc6f14e8562df7,
+        type: 2}
+      propertyPath: myColors.Array.data[9].a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c77a8243ba55ccb408cc6f14e8562df7, type: 2}

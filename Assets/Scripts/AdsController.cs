@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class AdsController : MonoBehaviour
 {
-
     public RewardBasedVideoAd rewardBasedVideoAd;
     public Text addsText;
     public Button watchAdButton;
@@ -18,7 +17,7 @@ public class AdsController : MonoBehaviour
     public void Start()
     {
         wantToLoadAd = false;
-        addsText.text = "";
+        //addsText.text = "";
 
         rewardBasedVideoAd = RewardBasedVideoAd.Instance;
 
@@ -38,8 +37,11 @@ public class AdsController : MonoBehaviour
         //addsText.text = "Trying To Load Ad" + System.Environment.NewLine + " ........." + UnityEngine.Random.Range(9, 99);
         if (!rewardBasedVideoAd.IsLoaded())
         {
-            string adUnitId = "ca-app-pub-2936227452105377/2559504686";
+            //My Coin Reward Video Ad
+            //string adUnitId = "ca-app-pub-2936227452105377/2559504686";
 
+            //Admob Test Reward Ad
+            string adUnitId = "ca-app-pub-3940256099942544/5224354917";
 #if UNITY_EDITOR
             adUnitId = "unused";
 #endif
@@ -59,26 +61,6 @@ public class AdsController : MonoBehaviour
         {
             watchAdButton.interactable = false;
         }
-
-        /*
-        if (wantToLoadAd)
-        {
-
-            addsText.text = "Trying To Load Ad" + System.Environment.NewLine + " ........." + UnityEngine.Random.Range(9, 99);
-            addsText.text += System.Environment.NewLine + "IsLoaded: " + rewardBasedVideoAd.IsLoaded().ToString();
-            LoadRewardBasedAd();
-            
-            if (!rewardBasedVideoAd.IsLoaded())
-            {
-                LoadRewardBasedAd();
-            }
-            else
-            {
-                wantToLoadAd = false;
-            }
-            
-        }
-    */
     }
 
     public void ShowRewardBasedAd()
@@ -90,18 +72,6 @@ public class AdsController : MonoBehaviour
     {
         wantToLoadAd = true;
         //addsText.text = "Trying To Load Ad" + System.Environment.NewLine + " .........";
-    }
-
-    void LoadRewardBasedAd()
-    {
-        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
-
-#if UNITY_EDITOR
-        adUnitId = "unused";
-#endif
-
-        AdRequest request = new AdRequest.Builder().Build();
-        rewardBasedVideoAd.LoadAd(request, adUnitId);
     }
 
     public void HandleOnAdLoaded(object sender, EventArgs args)
@@ -124,13 +94,17 @@ public class AdsController : MonoBehaviour
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
         //addsText.text += "Ads Finished" + System.Environment.NewLine;
-        Start();
+        //Start();
     }
     public void HandleOnAdRewarded(object sender, Reward args)
     {
         //Reward the user
         //addsText.text += String.Format("You just got {0} {1}!", args.Amount, args.Type) + System.Environment.NewLine;
-        Start();
+        //Start();
+
+        addsText.text = String.Format("You just got {0} {1}!", args.Amount, args.Type) + System.Environment.NewLine;
+
+        this.GetComponent<SavedGameController>().WriteIncrementedCoins((int)args.Amount);
     }
     public void HandleOnAdLeavingApplication(object sender, EventArgs args)
     {

@@ -7,12 +7,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class SavedGameController : MonoBehaviour {
 
     public Text coinText;
     public Text feedbackCoinText;
-    int coins;
+    public int coins;
+
+    private void Start()
+    {
+        feedbackCoinText.text = "";
+        UpdateCurrentCoins();
+    }
+
+    private void Update()
+    {
+        coinText.text = "Coins: " + coins;
+    }
 
     public void ReadSavedGame(string filename,
                          Action<SavedGameRequestStatus, ISavedGameMetadata> callback)
@@ -46,126 +56,102 @@ public class SavedGameController : MonoBehaviour {
 
     public void UpdateCurrentCoins()
     {
-        ISavedGameMetadata currentGame = null;
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+            //Local variable
+            ISavedGameMetadata currentGame = null;
 
-        // CALLBACK: Handle the result of a binary read
-        Action<SavedGameRequestStatus, byte[]> readBinaryCallback =
-        (SavedGameRequestStatus status, byte[] data) => {
-            if (status == SavedGameRequestStatus.Success)
+            // CALLBACK: Handle the result of a binary read
+            Action<SavedGameRequestStatus, byte[]> readBinaryCallback =
+            (SavedGameRequestStatus status, byte[] data) =>
             {
+                if (status == SavedGameRequestStatus.Success)
+                {
                 // Read coins from the Saved Game
                 try
-                {
-                    string coinsString = System.Text.Encoding.UTF8.GetString(data);
-                    coins = Convert.ToInt32(coinsString);
-                    feedbackCoinText.text += "Coins In read are: " + System.Environment.NewLine;
+                    {
+                        string coinsString = System.Text.Encoding.UTF8.GetString(data);
+                        coins = Convert.ToInt32(coinsString);
+                        feedbackCoinText.text += "Coins In read are: " + coins + System.Environment.NewLine;
+                    }
+                    catch (Exception e)
+                    {
+                        feedbackCoinText.text += "Saved Game Write: convert Byte to String exception" + System.Environment.NewLine;
+                    }
                 }
-                catch (Exception e)
-                {
-                    feedbackCoinText.text += "Saved Game Write: convert exception" + System.Environment.NewLine;
-                }
-            }
-        };
+            };
 
-        // CALLBACK: Handle the result of a read, which should return metadata
-        Action<SavedGameRequestStatus, ISavedGameMetadata> readCallback =
-        (SavedGameRequestStatus status, ISavedGameMetadata game) => {
-            feedbackCoinText.text += "Saved Game Read: " + status.ToString() + System.Environment.NewLine;
-            //Debug.Log("Saved Game Read: " + status.ToString());
-            if (status == SavedGameRequestStatus.Success)
-            {
-                // Read the binary game data
-                currentGame = game;
-                PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(game,
-                                                    readBinaryCallback);
-            }
-        };
-        ReadSavedGame("file_coins", readCallback);
+            Action<SavedGameRequestStatus, ISavedGameMetadata> readCallback =
+                (SavedGameRequestStatus status, ISavedGameMetadata game) =>
+                {
+                    if (status == SavedGameRequestStatus.Success)
+                    {
+                        feedbackCoinText.text += "File \"file_coins\" found and Loaded" + System.Environment.NewLine;
+                        currentGame = game;
+                        PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(currentGame, readBinaryCallback);
+                    }
+                };
+            ReadSavedGame("file_coins", readCallback);
+        }
     }
 
     public void WriteIncrementedCoins(int increment)
     {
         if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
-            // Local variable
+            //Local variable
             ISavedGameMetadata currentGame = null;
 
-            // CALLBACK: Handle the result of a write
-            Action<SavedGameRequestStatus, ISavedGameMetadata> writeCallback =
-            (SavedGameRequestStatus status, ISavedGameMetadata game) =>
+            if (PlayGamesPlatform.Instance.localUser.authenticated)
             {
-                feedbackCoinText.text += "Saved Game Write: " + status.ToString() + System.Environment.NewLine;
-                //Debug.Log("Saved Game Write: " + status.ToString());
-            };
-
-            // CALLBACK: Handle the result of a binary read
-            Action<SavedGameRequestStatus, byte[]> readBinaryCallback =
-            (SavedGameRequestStatus status, byte[] data) =>
-            {
-                feedbackCoinText.text += "Saved Game Binary Read: " + status.ToString() + System.Environment.NewLine;
-                //Debug.Log("Saved Game Binary Read: " + status.ToString());
-                if (status == SavedGameRequestStatus.Success)
+                Action<SavedGameRequestStatus, ISavedGameMetadata> writeCallback =
+                (SavedGameRequestStatus status, ISavedGameMetadata game) =>
                 {
-                // Read coins from the Saved Game
-                int coins = 0;
-                    try
-                    {
-                        string coinsString = System.Text.Encoding.UTF8.GetString(data);
-                        coins = Convert.ToInt32(coinsString);
-                    }
-                    catch (Exception e)
-                    {
-                        feedbackCoinText.text += "Saved Game Write: convert exception" + System.Environment.NewLine;
-                        //Debug.Log("Saved Game Write: convert exception");
-                    }
+                    feedbackCoinText.text += "Saved Game Write: " + status.ToString() + System.Environment.NewLine;
+                };
 
-                // Increment coins, convert to byte[]
-                int newCoins = coins + increment; // + mHits;
-                string newCoinsString = Convert.ToString(newCoins);
-                    byte[] newData = System.Text.Encoding.UTF8.GetBytes(newCoinsString);
-
-                // Write new data
-                WriteSavedGame(currentGame, newData, writeCallback);
-                }
-            };
-
-            // CALLBACK: Handle the result of a read, which should return metadata
-            Action<SavedGameRequestStatus, ISavedGameMetadata> readCallback =
-            (SavedGameRequestStatus status, ISavedGameMetadata game) =>
-            {
-                feedbackCoinText.text += "Saved Game Read: " + status.ToString() + System.Environment.NewLine;
-                //Debug.Log("Saved Game Read: " + status.ToString());
-                if (status == SavedGameRequestStatus.Success)
+                Action<SavedGameRequestStatus, byte[]> readBinaryCallback =
+                (SavedGameRequestStatus status, byte[] data) =>
                 {
-                // Read the binary game data
-                currentGame = game;
-                    PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(game,
-                                                        readBinaryCallback);
-                }
-            };
+                    feedbackCoinText.text += "Saved Game Binary Read: " + status.ToString() + System.Environment.NewLine;
+                    if (status == SavedGameRequestStatus.Success)
+                    {
+                        // Read coins from the Saved Game
+                        try
+                        {
+                            string coinsString = System.Text.Encoding.UTF8.GetString(data);
+                            coins = Convert.ToInt32(coinsString);
+                            feedbackCoinText.text += "Coins In read are: " + coins + System.Environment.NewLine;
+                        }
+                        catch (Exception e)
+                        {
+                            feedbackCoinText.text += "Saved Game Write: convert exception" + System.Environment.NewLine;
+                        }
 
-            // Read the current data and kick off the callback chain
-            feedbackCoinText.text += "Saved Game: Reading" + System.Environment.NewLine;
-            ReadSavedGame("file_coins", readCallback);
+                        // Increment coins, convert to byte[]
+                        coins += increment;
+                        string newCoinsString = Convert.ToString(coins);
+                        feedbackCoinText.text += "New Coin Count: " + newCoinsString + System.Environment.NewLine;
+                        byte[] newData = System.Text.Encoding.UTF8.GetBytes(newCoinsString);
+
+                        // Write new data
+                        WriteSavedGame(currentGame, newData, writeCallback);
+                    }
+                };
+
+                Action<SavedGameRequestStatus, ISavedGameMetadata> readCallback =
+                (SavedGameRequestStatus status, ISavedGameMetadata game) =>
+                {
+                    if (status == SavedGameRequestStatus.Success)
+                    {
+                        feedbackCoinText.text += "File \"file_coins\" found and Loaded" + System.Environment.NewLine;
+                        currentGame = game;
+                        PlayGamesPlatform.Instance.SavedGame.ReadBinaryData(currentGame, readBinaryCallback);
+                    }
+                };
+
+                ReadSavedGame("file_coins", readCallback);
+            }
         }
-    }
-
-    void UpdateCoinText()
-    {
-        feedbackCoinText.text = "";
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-            UpdateCurrentCoins();
-        }
-    }
-
-    private void Update()
-    {
-        coinText.text = "Coins: " + coins;
-    }
-
-    private void Start()
-    {
-        InvokeRepeating("UpdateCoinText", 0.0f, 2.0f);
     }
 }

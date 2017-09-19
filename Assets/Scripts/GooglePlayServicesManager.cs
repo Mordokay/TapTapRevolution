@@ -10,7 +10,6 @@ using System.Text;
 
 public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListener
 {
-
     bool IsConnectedToGoogleServices;
     public Text loginInfo;
     public GameObject signInButton;
@@ -49,6 +48,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
             UpdateLeaderboards();
             UpdateAchievements();
             loginInfo.text = "Signed In: " + PlayGamesPlatform.Instance.localUser.userName;
+
             signInButton.SetActive(false);
             signOutButton.SetActive(true);
             leaderboardButton.interactable = true;
@@ -115,6 +115,9 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         if (success)
         {
             loginInfo.text = "Signed In: " + PlayGamesPlatform.Instance.localUser.userName;
+
+            this.GetComponent<SavedGameController>().UpdateCurrentCoins();
+
             UpdateLeaderboards();
             UpdateAchievements();
             signInButton.SetActive(false);

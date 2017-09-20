@@ -36,6 +36,8 @@ public class ButtonController : MonoBehaviour {
         {
             tapScoreText.text = "TAPS: " + tapCount;
             myTotalTapText.text = "";
+
+            this.GetComponent<ClickRecorder>().AddLine(Time.time - gm.startTime);
         }
         else
         {
@@ -165,6 +167,25 @@ public class ButtonController : MonoBehaviour {
                 }
             }
             else if (Input.touchCount == 0)
+            {
+                myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+            }
+
+            //Only used in Unity Editor for testing purposes
+            if (Input.GetMouseButtonDown(0))
+            {
+                tapCount++;
+
+                GameObject myClick = Instantiate(soundClick) as GameObject;
+                Destroy(myClick, 1.0f);
+
+                CheckBestScore();
+                UpdateScore();
+
+                myButton.GetComponent<Animator>().SetTrigger("Tap");
+                myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+            }
+            else if (Input.GetMouseButtonUp(0))
             {
                 myButton.GetComponent<Animator>().SetTrigger("TapReturn");
             }

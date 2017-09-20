@@ -578,6 +578,7 @@ GameObject:
   - component: {fileID: 685717067}
   - component: {fileID: 685717066}
   - component: {fileID: 685717068}
+  - component: {fileID: 685717069}
   m_Layer: 0
   m_Name: BoxFront
   m_TagString: Untagged
@@ -658,6 +659,18 @@ MonoBehaviour:
   tapScoreText: {fileID: 1787224839}
   myTotalTapText: {fileID: 1873360861}
   soundClick: {fileID: 1756739540984810, guid: b9c0ae5270189d745b0403ad26481cc9, type: 2}
+--- !u!114 &685717069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685717065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fffda101028e3344800ef8a2cfe072a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTime: []
 --- !u!1 &741168779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundDuration: 0
+  startTime: 0
   mySeconds: {fileID: 1617006378}
   BestScoreLimited: {fileID: 663029684}
   startedRound: 0
@@ -1844,6 +1858,7 @@ MonoBehaviour:
   timeSlider: {fileID: 2026530169}
   tapCountUnlimited: 0
   bc: {fileID: 685717068}
+  cr: {fileID: 685717069}
   isUnlimited: 0
 --- !u!4 &1976497753
 Transform:

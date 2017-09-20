@@ -9,7 +9,7 @@ using GooglePlayGames;
 public class GameManager : MonoBehaviour {
 
     public int roundDuration;
-    float startTime;
+    public float startTime;
     public Text mySeconds;
 
     public Text BestScoreLimited;
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     public int tapCountUnlimited;
 
     public ButtonController bc;
+    public ClickRecorder cr;
 
     public int isUnlimited;
     private bool fillingBack;
@@ -98,6 +99,8 @@ public class GameManager : MonoBehaviour {
             else //Round Ended
             {
                 UpdateBestScores();
+
+                cr.CloseStream();
 
                 bc.tapCount = 0;
                 startedRound = false;

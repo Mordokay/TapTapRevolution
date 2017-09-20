@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour {
         startedRound = true;
         startTime = Time.time;
         startRoundButton.SetActive(false);
+
+        //cr.AddNewTable();
     }
 
 
@@ -99,8 +101,6 @@ public class GameManager : MonoBehaviour {
             else //Round Ended
             {
                 UpdateBestScores();
-
-                cr.CloseStream();
 
                 bc.tapCount = 0;
                 startedRound = false;

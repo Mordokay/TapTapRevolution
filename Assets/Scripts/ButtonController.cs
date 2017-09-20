@@ -37,7 +37,15 @@ public class ButtonController : MonoBehaviour {
             tapScoreText.text = "TAPS: " + tapCount;
             myTotalTapText.text = "";
 
+            if (PlayGamesPlatform.Instance.localUser.authenticated)
+            {
+                this.GetComponent<ClickRecorder>().AddLine(Time.time - gm.startTime);
+            }
+
+#if UNITY_EDITOR
             this.GetComponent<ClickRecorder>().AddLine(Time.time - gm.startTime);
+#endif
+
         }
         else
         {
@@ -170,7 +178,7 @@ public class ButtonController : MonoBehaviour {
             {
                 myButton.GetComponent<Animator>().SetTrigger("TapReturn");
             }
-
+#if UNITY_EDITOR
             //Only used in Unity Editor for testing purposes
             if (Input.GetMouseButtonDown(0))
             {
@@ -189,6 +197,7 @@ public class ButtonController : MonoBehaviour {
             {
                 myButton.GetComponent<Animator>().SetTrigger("TapReturn");
             }
+#endif
         }
     }
 }

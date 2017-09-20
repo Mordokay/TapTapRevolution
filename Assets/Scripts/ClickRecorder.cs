@@ -14,20 +14,43 @@ public class ClickRecorder : MonoBehaviour {
 
     public string addTapTime = "http://web.ist.utl.pt/ist165821/addTapTime.php";
     public string getTable = "http://web.ist.utl.pt/ist165821/displayTable.php";
+    public string createTable = "http://web.ist.utl.pt/ist165821/createTable.php";
 
     // remember to use StartCoroutine when calling this function!
-    IEnumerator PostScores(float time)
+    IEnumerator PostScores(string tableName, float time)
     {
-        string post_url = addTapTime + "time=" + WWW.EscapeURL(time.ToString());
+        string post_url = addTapTime + "?time=" + WWW.EscapeURL(time.ToString()) + "&name=" + WWW.EscapeURL(tableName);
 
         // Post the URL to the site and create a download object to get the result.
         WWW hs_post = new WWW(post_url);
         yield return hs_post; // Wait until the download is done
 
+        Debug.Log(hs_post.text);
+
+        /*
         if (hs_post.error != null)
         {
             print("There was an error posting the high score: " + hs_post.error);
         }
+        */
+    }
+
+    // remember to use StartCoroutine when calling this function!
+    IEnumerator CreateTable(string name)
+    {
+        string post_url = createTable + "?name=" + WWW.EscapeURL(name.ToString());
+
+        // Post the URL to the site and create a download object to get the result.
+        WWW hs_post = new WWW(post_url);
+        yield return hs_post; // Wait until the download is done
+
+        Debug.Log(hs_post.text);
+        /*
+        if (hs_post.error != null)
+        {
+            print("There was an error posting the high score: " + hs_post.error);
+        }
+        */
     }
 
     // Get the scores from the MySQL DB to display in a GUIText.
@@ -56,12 +79,14 @@ public class ClickRecorder : MonoBehaviour {
         Guid uid = Guid.NewGuid();
         StartStream(uid.ToString());
 
-        StartCoroutine(GetTimes());
+        //StartCoroutine(GetTimes());
+        StartCoroutine(CreateTable("LoveAnalSporting"));
     }
 
     void StartStream(string name)
     {
         writer = new StreamWriter("Assets/Resources/" + name + ".txt", true);
+
     }
 
     public void AddLine(float time)
@@ -72,6 +97,8 @@ public class ClickRecorder : MonoBehaviour {
             myTime.Add(time);
             string myText = time.ToString();
             writer.WriteLine(myText);
+
+            StartCoroutine(PostScores("LoveAnalSporting", time));
         }
         else
         {

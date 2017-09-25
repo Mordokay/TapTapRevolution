@@ -21,39 +21,64 @@ public class GameManager : MonoBehaviour {
     public int tapCountUnlimited;
 
     public ButtonController bc;
+    public GameObject button;
     public ClickRecorder cr;
 
-    public int isUnlimited;
+    public bool isUnlimited;
     private bool fillingBack;
+    MenuManager mm;
+
+    public GameObject MenuCanvas;
+    public GameObject mainMenu;
+    public GameObject singlePlayerGameCanvas;
+    public GameObject GameComponents;
 
     void Start () {
-        startedRound = false;
-        roundDuration = PlayerPrefs.GetInt("roundDuration");
-        mySeconds.text = roundDuration.ToString() + "s";
-        isUnlimited = PlayerPrefs.GetInt("unlimitedRound");
+        mm = this.GetComponent<MenuManager>(); 
+    }
 
-        tapCountUnlimited = PlayerPrefs.GetInt("TapCount");
+    public void StartSingleRound()
+    {
+        fillingBack = false;
+        isUnlimited = mm.isUnlimited;
+        startRoundButton.SetActive(true);
 
-        switch (roundDuration)
+        if (isUnlimited)
         {
-            case 15:
-                BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best15").ToString();
-                break;
-            case 30:
-                BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best30").ToString();
-                break;
-            case 60:
-                BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best60").ToString();
-                break;
-        }
+            tapCountUnlimited = PlayerPrefs.GetInt("TapCount");
 
-        if (isUnlimited == 1)
-        {
+            bc.myTotalTapText.text = "TOTAL TAPS: " + PlayerPrefs.GetInt("TapCount");
+
             timeSlider.gameObject.SetActive(false);
             mySeconds.gameObject.SetActive(false);
             startRoundButton.SetActive(false);
             BestScoreLimited.gameObject.SetActive(true);
             startedRound = true;
+        }
+        else
+        {
+            startedRound = false;
+            roundDuration = mm.roundDuration;
+            mySeconds.text = roundDuration.ToString() + "s";
+
+            timeSlider.gameObject.SetActive(true);
+            timeSlider.value = 1.0f;
+
+            switch (roundDuration)
+            {
+                case 15:
+                    BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best15").ToString();
+                    Debug.Log("Best Score: " + PlayerPrefs.GetInt("Best15").ToString());
+                    break;
+                case 30:
+                    BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best30").ToString();
+                    Debug.Log("Best Score: " + PlayerPrefs.GetInt("Best30").ToString());
+                    break;
+                case 60:
+                    BestScoreLimited.text = "Best Score: " + PlayerPrefs.GetInt("Best60").ToString();
+                    Debug.Log("Best Score: " + PlayerPrefs.GetInt("Best60").ToString());
+                    break;
+            }
         }
     }
 
@@ -68,14 +93,17 @@ public class GameManager : MonoBehaviour {
         startedRound = true;
         startTime = Time.time;
         startRoundButton.SetActive(false);
-
-        //cr.AddNewTable();
     }
-
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene(0);
+        button.transform.localPosition = new Vector3(0.0f, 3.28f, 0.0f);
+        MenuCanvas.SetActive(true);
+        mainMenu.SetActive(true);
+        singlePlayerGameCanvas.SetActive(false);
+        GameComponents.SetActive(false);
+        mm.isSingleplayer = false;
+        mm.isUnlimited = false;
         UpdateBestScores();
     }
 
@@ -91,7 +119,7 @@ public class GameManager : MonoBehaviour {
                 startRoundButton.SetActive(true);
             }
         }
-        else if (startedRound && isUnlimited == 0) 
+        else if (startedRound && !isUnlimited) 
         {
             if (Time.time - startTime < roundDuration)
             {

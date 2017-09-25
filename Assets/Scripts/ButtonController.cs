@@ -14,26 +14,44 @@ public class ButtonController : MonoBehaviour {
     public Text myTotalTapText;
 
     GameManager gm;
+    MenuManager mm;
+
     public GameObject soundClick;
+
     void Start() {
         gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        mm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MenuManager>();
+    }
 
-        if (PlayerPrefs.GetInt("unlimitedRound") == 0)
+    public void StartButtonController()
+    {
+       // myButton.GetComponent<Animator>().SetTrigger("Tap");
+
+        if (gm == null || mm == null)
         {
-            tapCount = 0;
-            tapScoreText.text = "TAPS: " + tapCount;
-            myTotalTapText.text = "";
+            gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+            mm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MenuManager>();
         }
-        else
+        if (mm.isSingleplayer)
         {
-            tapScoreText.text = "";
-            myTotalTapText.text = "TOTAL TAPS: " + PlayerPrefs.GetInt("TapCount");
+            if (!mm.isUnlimited)
+            {
+                tapCount = 0;
+                tapScoreText.text = "TAPS: " + tapCount;
+                myTotalTapText.text = "";
+            }
+            else
+            {
+                tapScoreText.text = "";
+                myTotalTapText.text = "TOTAL TAPS: " + PlayerPrefs.GetInt("TapCount");
+            }
         }
     }
 
     void UpdateScore() {
-        if (gm.isUnlimited == 0)
+        if (!gm.isUnlimited )
         {
+            //Debug.Log("tapCount: " + tapCount);
             tapScoreText.text = "TAPS: " + tapCount;
             myTotalTapText.text = "";
 
@@ -150,54 +168,57 @@ public class ButtonController : MonoBehaviour {
     }
 
     void Update() {
-        if (gm.startedRound)
+        if (mm.isSingleplayer)
         {
-            if (Input.touchCount > 0)
+            if (gm.startedRound)
             {
-                if (Input.touches[0].phase.Equals(TouchPhase.Began))
+                if (Input.touchCount > 0)
                 {
-                    Vector3 pos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
-                    RaycastHit2D hit = Physics2D.Raycast(pos - Vector3.forward, new Vector3(0, 0, 1));
-                    if (hit.collider != null && hit.collider.tag.Equals("Button") &&
-                        hit.collider.gameObject.Equals(myButton))
+                    if (Input.touches[0].phase.Equals(TouchPhase.Began))
                     {
-                        tapCount++;
+                        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                        RaycastHit2D hit = Physics2D.Raycast(pos - Vector3.forward, new Vector3(0, 0, 1));
+                        if (hit.collider != null && hit.collider.tag.Equals("Button") &&
+                            hit.collider.gameObject.Equals(myButton))
+                        {
+                            tapCount++;
 
-                        GameObject myClick = Instantiate(soundClick) as GameObject;
-                        Destroy(myClick, 1.0f);
+                            GameObject myClick = Instantiate(soundClick) as GameObject;
+                            Destroy(myClick, 1.0f);
 
-                        CheckBestScore();
-                        UpdateScore();
+                            CheckBestScore();
+                            UpdateScore();
 
-                        myButton.GetComponent<Animator>().SetTrigger("Tap");
-                        myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+                            myButton.GetComponent<Animator>().SetTrigger("Tap");
+                            myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+                        }
                     }
                 }
-            }
-            else if (Input.touchCount == 0)
-            {
-                myButton.GetComponent<Animator>().SetTrigger("TapReturn");
-            }
+                else if (Input.touchCount == 0)
+                {
+                    myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+                }
 #if UNITY_EDITOR
-            //Only used in Unity Editor for testing purposes
-            if (Input.GetMouseButtonDown(0))
-            {
-                tapCount++;
+                //Only used in Unity Editor for testing purposes
+                if (Input.GetMouseButtonDown(0))
+                {
+                    tapCount++;
 
-                GameObject myClick = Instantiate(soundClick) as GameObject;
-                Destroy(myClick, 1.0f);
+                    GameObject myClick = Instantiate(soundClick) as GameObject;
+                    Destroy(myClick, 1.0f);
 
-                CheckBestScore();
-                UpdateScore();
+                    CheckBestScore();
+                    UpdateScore();
 
-                myButton.GetComponent<Animator>().SetTrigger("Tap");
-                myButton.GetComponent<Animator>().SetTrigger("TapReturn");
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                myButton.GetComponent<Animator>().SetTrigger("TapReturn");
-            }
+                    myButton.GetComponent<Animator>().SetTrigger("Tap");
+                    myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    myButton.GetComponent<Animator>().SetTrigger("TapReturn");
+                }
 #endif
+            }
         }
     }
 }

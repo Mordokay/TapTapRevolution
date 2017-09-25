@@ -74,11 +74,16 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         MultiplayerCanvas.SetActive(true);
         MultiplayerObjects.SetActive(true);
         MenuCanvas.SetActive(false);
+        this.GetComponent<MenuManager>().isSingleplayer = false;
+        mc.initializeMultiplayerGame();
+
         mc.gameStarted = true;
     }
 
     void LeaveMultiplayerGame()
     {
+        mc.gameStarted = false;
+
         MultiplayerCanvas.SetActive(false);
         MultiplayerObjects.SetActive(false);
 
@@ -86,7 +91,6 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         leaveSearchButton.SetActive(false);
 
         MenuCanvas.SetActive(true);
-        mc.Start();
     }
 
     public void SignIn()

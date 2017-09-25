@@ -14,10 +14,10 @@ public class ClickRecorder : MonoBehaviour {
 
     int count = 0;
 
-    public string addTapTime = "http://web.ist.utl.pt/ist165821/addTapTime.php";
-    public string getTable = "http://web.ist.utl.pt/ist165821/displayTable.php";
-    public string createTable = "http://web.ist.utl.pt/ist165821/createTable.php";
-    public string getAllTables = "http://web.ist.utl.pt/ist165821/GetAllTables.php";
+    string addTapTime = "http://web.ist.utl.pt/ist165821/addTapTime.php";
+    string getTable = "http://web.ist.utl.pt/ist165821/displayTable.php";
+    string createTable = "http://web.ist.utl.pt/ist165821/createTable.php";
+    string getAllTables = "http://web.ist.utl.pt/ist165821/GetAllTables.php";
 
     IEnumerator PostScores(string tableName, float time)
     {
@@ -27,7 +27,7 @@ public class ClickRecorder : MonoBehaviour {
         WWW hs_post = new WWW(post_url);
         yield return hs_post; // Wait until the download is done
 
-        Debug.Log(hs_post.text);
+        //Debug.Log(hs_post.text);
 
         /*
         if (hs_post.error != null)
@@ -100,15 +100,6 @@ public class ClickRecorder : MonoBehaviour {
         */
     }
 
-    private void Start()
-    {
-        //Guid uid = Guid.NewGuid();
-        //tableUID = uid.ToString();
-        //StartStream(uid.ToString());
-        //StartCoroutine(CreateTable(tableUID));
-        AddNewTable();
-    }
-
     public void AddNewTable()
     {
         //Only creates tables if user is logged in
@@ -134,47 +125,10 @@ public class ClickRecorder : MonoBehaviour {
 #endif
     }
 
-    void StartStream(string name)
-    {
-        writer = new StreamWriter("Assets/Resources/" + name + ".txt", true);
-    }
-
     public void AddLine(float time)
     {
-        if (count < 200)
-        {
-            count++;
-            //myTime.Add(time);
-            //string myText = time.ToString();
-            //writer.WriteLine(myText);
+        count++;
 
-            StartCoroutine(PostScores(tableUID, time));
-        }
-        else
-        {
-            //CloseStream();
-        }
-    }
-
-    public void CloseStream()
-    {
-        if (writer.BaseStream != null)
-        {
-            writer.Close();
-        }
-    }
-
-    void ReadString(string name)
-    {
-        string path = "Assets/Resources/" + name + ".txt";
-
-        StreamReader reader = new StreamReader(path);
-
-        string line;
-        while ((line = reader.ReadLine()) != null)
-        {
-            Debug.Log(line);
-        }
-        CloseStream();
+        StartCoroutine(PostScores(tableUID, time));
     }
 }

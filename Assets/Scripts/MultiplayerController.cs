@@ -51,6 +51,11 @@ public class MultiplayerController : MonoBehaviour
     public void Start()
     {
         gpsm = this.GetComponent<GooglePlayServicesManager>();
+        
+    }
+
+    public void initializeMultiplayerGame()
+    {
         gameInitialized = false;
 
         countdownTimeMe = 5.0f;
@@ -70,7 +75,8 @@ public class MultiplayerController : MonoBehaviour
         ILostPanel.SetActive(false);
         DrawPanel.SetActive(false);
         timeSlider.GetComponent<Slider>().value = 1.0f;
-        //messagesRecievedText.text = "No messages Received :(";
+
+        tapScoreText.text = "TAPS: " + tapCountMe;
     }
 
     void checkWinLoss()
@@ -126,10 +132,9 @@ public class MultiplayerController : MonoBehaviour
 
     private void Update()
     {
-        tapScoreText.text = "TAPS: " + tapCountMe;
-
         if (gameStarted)
         {
+            tapScoreText.text = "TAPS: " + tapCountMe;
             //gpsm.SendMyMessage("CD:" + currentDurationMe.ToString());
             if (!gameInitialized)
             {

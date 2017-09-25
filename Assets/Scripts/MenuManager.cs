@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
+    public GameObject MenuCanvas;
+    public GameObject SinglePlayerGameCanvas;
+    public GameObject GameComponents;
+
     public GameObject mainMenu;
     public GameObject singleplayerMenu;
     public GameObject multiplayerMenu;
@@ -25,8 +29,19 @@ public class MenuManager : MonoBehaviour {
     public GameObject multiplayerOptions;
     public GameObject standardPanel;
 
+    public bool isSingleplayer;
+    public bool isUnlimited;
+    public int singleLimitedType;
+    public int roundDuration;
+
+    public ClickRecorder cr;
+    public ButtonController bc;
+
     private void Start()
     {
+        isSingleplayer = false;
+        isUnlimited = false;
+
         GameObject[] mySoundtracks = GameObject.FindGameObjectsWithTag("Soundtrack");
         for(int i = 1; mySoundtracks.Length > 1 && i < mySoundtracks.Length; i++)
         {
@@ -136,29 +151,43 @@ public class MenuManager : MonoBehaviour {
 
     public void LoadUnlimtedRound()
     {
-        PlayerPrefs.SetInt("BestScore", 0);
-        PlayerPrefs.SetInt("unlimitedRound", 1);
-        SceneManager.LoadScene(1);
+        isSingleplayer = true;
+        isUnlimited = true;
+        singleplayerMenu.SetActive(false);
+        SinglePlayerGameCanvas.SetActive(true);
+        GameComponents.SetActive(true);
+        this.GetComponent<GameManager>().StartSingleRound();
+        bc.StartButtonController();
     }
 
     public void LoadTimeRound(int time)
     {
+        isSingleplayer = true;
+        isUnlimited = false;
+
         switch (time)
         {
             case 15:
-                PlayerPrefs.SetInt("BestScore", PlayerPrefs.GetInt("Best15"));
+                singleLimitedType = 0;
                 break;
             case 30:
-                PlayerPrefs.SetInt("BestScore", PlayerPrefs.GetInt("Best30"));
+                singleLimitedType = 1;
                 break;
             case 60:
-                PlayerPrefs.SetInt("BestScore", PlayerPrefs.GetInt("Best60"));
+                singleLimitedType = 2;
                 break;
         }
-        PlayerPrefs.SetInt("roundDuration", time);
-        PlayerPrefs.SetInt("unlimitedRound", 0);
-        PlayerPrefs.SetInt("BestScore", 0);
-        SceneManager.LoadScene(1);
+        roundDuration = time;
+
+        isSingleplayer = true;
+        isUnlimited = false;
+        singleplayerMenu.SetActive(false);
+        SinglePlayerGameCanvas.SetActive(true);
+        GameComponents.SetActive(true);
+
+        cr.AddNewTable();
+        this.GetComponent<GameManager>().StartSingleRound();
+        bc.StartButtonController();
     }
 
     public void LeaveMultiplayerOptions()

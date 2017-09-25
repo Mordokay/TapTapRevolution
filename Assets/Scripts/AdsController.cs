@@ -56,7 +56,11 @@ public class AdsController : MonoBehaviour
 
     public void Update()
     {
-        if (rewardBasedVideoAd.IsLoaded())
+        if (rewardBasedVideoAd == null)
+        {
+            rewardBasedVideoAd = RewardBasedVideoAd.Instance;
+        }
+        else if (rewardBasedVideoAd.IsLoaded())
         {
             watchAdButton.interactable = true;
             timeSinceLastRequest = 0.0f;
@@ -77,7 +81,7 @@ public class AdsController : MonoBehaviour
     public void ShowRewardBasedAd()
     {
         addsText.text = "";
-        this.GetComponent<SavedGameController>().feedbackCoinText.text = "";
+        //this.GetComponent<SavedGameController>().feedbackCoinText.text = "";
         rewardBasedVideoAd.Show();
     }
     
@@ -110,8 +114,9 @@ public class AdsController : MonoBehaviour
     {
         //Reward the user
         addsText.text = String.Format("You just got {0} {1}!", args.Amount, args.Type) + System.Environment.NewLine;
+        addsText.text += Time.timeSinceLevelLoad;
 
-        this.GetComponent<SavedGameController>().WriteIncrementedCoins((int)args.Amount);
+        this.GetComponent<SavedGameController>().IncrementCoins((int)args.Amount);
     }
 
     public void HandleOnAdLeavingApplication(object sender, EventArgs args)

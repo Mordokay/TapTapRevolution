@@ -105,7 +105,7 @@ namespace GoogleMobileAds.Common
 
         public bool IsLoaded()
         {
-            Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
+            //Debug.Log("Dummy " + MethodBase.GetCurrentMethod().Name);
             return true;
         }
 

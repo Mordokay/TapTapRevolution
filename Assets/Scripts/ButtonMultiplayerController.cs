@@ -9,16 +9,18 @@ public class ButtonMultiplayerController : MonoBehaviour
     public GameObject myButton;
     public GameObject soundClick;
     MultiplayerController mc;
+    MenuManager mm;
 
     void Start()
     {
         mc = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MultiplayerController>();
+        mm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MenuManager>();
     }
 
     void Update()
     {
         if (!mc.gameOver && mc.gameStarted && mc.currentDurationMe > 0.0f && mc.countdownTimeMe <= 0.0f &&
-            PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2)
+            PlayGamesPlatform.Instance.RealTime.GetConnectedParticipants().Count == 2 && !mm.isSingleplayer)
         {
             if (Input.touchCount > 0 && Application.isEditor)
             {

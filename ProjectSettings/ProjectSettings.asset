@@ -121,7 +121,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.2
+  bundleVersion: 1.3
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -143,7 +143,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.GreenSphereStudios.TapTapRevolution
   buildNumber: {}
-  AndroidBundleVersionCode: 3
+  AndroidBundleVersionCode: 4
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
@@ -232,27 +232,27 @@ PlayerSettings:
   - m_BuildTarget: Android
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 192
       m_Height: 192
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 144
       m_Height: 144
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 96
       m_Height: 96
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 72
       m_Height: 72
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 48
       m_Height: 48
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d5f88ba857996cd4da669bae28411f63, type: 3}
+      m_Icon: {fileID: 2800000, guid: 49c3683b926b3404ca22e1c5eda45a01, type: 3}
       m_Width: 36
       m_Height: 36
   m_BuildTargetBatching: []

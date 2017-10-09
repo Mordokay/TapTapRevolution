@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour {
     {   
         tapCountUnlimited++;
         PlayerPrefs.SetInt("TapCount", tapCountUnlimited);
+        this.GetComponent<GooglePlayServicesManager>().UpdateLeaderboards();
     }
 
     public void StartRound()
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour {
         mm.isSingleplayer = false;
         mm.isUnlimited = false;
         UpdateBestScores();
+
     }
 
 	void Update () {
@@ -129,6 +131,7 @@ public class GameManager : MonoBehaviour {
             else //Round Ended
             {
                 UpdateBestScores();
+                this.GetComponent<GooglePlayServicesManager>().UpdateLeaderboards();
 
                 bc.tapCount = 0;
                 startedRound = false;
@@ -147,18 +150,21 @@ public class GameManager : MonoBehaviour {
                 if (PlayerPrefs.GetInt("Best15") <= bc.tapCount)
                 {
                     PlayerPrefs.SetInt("Best15", bc.tapCount);
+                    this.GetComponent<GooglePlayServicesManager>().UpdateLeaderboards();
                 }
                 break;
             case 30:
                 if (PlayerPrefs.GetInt("Best30") <= bc.tapCount)
                 {
                     PlayerPrefs.SetInt("Best30", bc.tapCount);
+                    this.GetComponent<GooglePlayServicesManager>().UpdateLeaderboards();
                 }
                 break;
             case 60:
                 if (PlayerPrefs.GetInt("Best60") <= bc.tapCount)
                 {
                     PlayerPrefs.SetInt("Best60", bc.tapCount);
+                    this.GetComponent<GooglePlayServicesManager>().UpdateLeaderboards();
                 }
                 break;
         }

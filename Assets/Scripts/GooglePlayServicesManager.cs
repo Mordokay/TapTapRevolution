@@ -141,7 +141,7 @@ public class GooglePlayServicesManager : MonoBehaviour, RealTimeMultiplayerListe
         }
     }
 
-    void UpdateLeaderboards()
+    public void UpdateLeaderboards()
     {
         AddScoreToLeaderboard(TapTapRevolutionResources.leaderboard_unlimited_mode, PlayerPrefs.GetInt("TapCount"));
         AddScoreToLeaderboard(TapTapRevolutionResources.leaderboard_15_seconds, PlayerPrefs.GetInt("Best15"));
